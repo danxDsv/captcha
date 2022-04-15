@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 include 'fonction.php';
 
 blacklistFORM();
@@ -9,11 +11,11 @@ blacklistFORM();
 <head>
   <meta charset="utf-8">
   <title>Formulaire</title>
-  <!--<link rel="stylesheet" href="style.css">-->
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   
-    <form action="traitement.php" method="post">
+    <form id="formulaire" action="traitement.php" method="post">
 		<!-- vrais input du formulaire mettre des patterns si possible pour bloquer spam d'url-->
 		<p>
 			<input type="text" name="nom" id="nom" pattern="^[a-zA-Z][a-zA-Z .,'-]*$" placeholder="Nom"/>
@@ -28,7 +30,7 @@ blacklistFORM();
 		<!--Pot de miel CSS-->
         <p>
 			<!--<input type="text" name="validation" tabindex="-1" autocomplete="off" id="validation" placeholder="validation"/>-->
-            <input type="text" name="validation" style="display:none !important" tabindex="-1" autocomplete="off" id="validation" placeholder="validation" value=""/>
+            <input type="text" name="validation" tabindex="-1" autocomplete="off" id="validation" placeholder="validation" value=""/>
 		</p>	
 		<p>
 			<input type="submit" value="Suivant" name="send" />

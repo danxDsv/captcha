@@ -43,6 +43,7 @@ if(isset($_POST["send"])){
 <head>
 	<meta charset="utf-8" />
 	<title></title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
@@ -56,6 +57,6 @@ if(isset($_POST["send"])){
      
        
 ?>
-	
+    <script src="js/script.js"></script>
 </body>
 </html>

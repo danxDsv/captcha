@@ -1,4 +1,7 @@
 <?php
+include 'fonction.php';
+
+blacklistFORM();
 ?>
 
 <!doctype html>
@@ -6,7 +9,7 @@
 <head>
   <meta charset="utf-8">
   <title>Formulaire</title>
-  <!--<link rel="stylesheet" href="style.css">-->
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <nav id="menu">
@@ -18,5 +21,6 @@
                       
         </ul>
     </nav> 
+    <script src="js/script.js"></script>
 </body>
 </html>

@@ -6,11 +6,11 @@
 <head>
   <meta charset="utf-8">
   <title>Aurevoir</title>
-  <!--<link rel="stylesheet" href="style.css"> style="display:none !important"-->
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   
-    <p>Aurevoir</p>
-  
+  <p>Aurevoir</p>
+  <script src="js/script.js"></script>
 </body>
 </html>
