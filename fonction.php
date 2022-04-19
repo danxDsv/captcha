@@ -1,6 +1,6 @@
 <?php
 
-//fonction pour recup ip
+//fonction pour recuperer l'ip
 function get_ip(){
     $ip = $_SERVER["REMOTE_ADDR"];
     return $ip;
@@ -52,26 +52,26 @@ function blacklistFORM(){
     }
 }  
 
-function captcha(){
-    $limiteSpam = 5;
-    $captcha = false;
+//renvoie un boolean qui permet de savoir si on a besoin d'un captcha
+function BoolCaptcha(){
+    //variables initiales 
+    $limiteSpam = 5; //limite de spam
+    $captcha = false; //booleen qui permet de gérer l'affichage
 
+    //ouverture cpt.txt en lecture
     $fc = fopen("cpt.txt", "r");
+    //lecture de la valeur
     $valSpam = fgets($fc, 4096);
-
+    //comparaison avec la limite
     if ($valSpam >= $limiteSpam) {
-        $captcha = true;
+        $captcha = true; //si val est >= on affichera
     }
 
     fclose($fc); 
     return $captcha;
-    //ouverture cpt.txt en lecture
-    //lire val et comparer à la limite
-    //si cpt >= limit -> captcha = true
-    //return captcha
 }
 
-//fonction permettant d'incrémenter le compteur de spam
+//incrémente le compteur de spam
 function cptPlus(){
 
     //récuperation de la valeur du fichier
@@ -86,7 +86,9 @@ function cptPlus(){
     fclose($fcpt); 
 }
 
+//réinitialise le compteur
 function resetCpt(){
+    $date = date("d-m-Y", time());
     //si date > 1 semaine -> cpt = 0
 }
 ?>

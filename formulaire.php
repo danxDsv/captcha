@@ -5,7 +5,7 @@ include 'fonction.php';
 
 blacklistFORM();
 
-$captcha = captcha();
+$captcha = BoolCaptcha();
 ?>
 
 <!doctype html>
@@ -13,11 +13,11 @@ $captcha = captcha();
 <head>
   <meta charset="utf-8">
   <title>Formulaire</title>
-  <!--<link rel="stylesheet" href="css/style.css">-->
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   
-    <form id="formulaire" action="traitement.php" method="post">
+    <form id="formulaire" action="traitement.php" method="post" onsubmit='confirmer()'>
 		<!-- vrais input du formulaire mettre des patterns si possible pour bloquer spam d'url-->
 		<p>
 			<input type="text" name="nom" id="nom" pattern="^[a-zA-Z][a-zA-Z .,'-]*$" placeholder="Nom"/>
