@@ -2,13 +2,7 @@
 
 //fonction pour recup ip
 function get_ip(){
-    if(isset($_SERVER["HTTP_X_FORWARDED_FOR"])) {
-        $ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
-    } elseif (isset($_SERVER["HTTP_CLIENT_IP"])) {
-        $ip = $_SERVER["HTTP_CLIENT_IP"]; 
-    } else {
-        $ip = $_SERVER["REMOTE_ADDR"];
-    }
+    $ip = $_SERVER["REMOTE_ADDR"];
     return $ip;
 }
 
@@ -17,7 +11,10 @@ function blacklist(){
     //Recuperation de l'ip
     $ip = get_ip();
 
-    //Ouverture du fichier blacklist
+    //compteur de spam
+    cptPlus();
+
+    //Ouverture du fichier blacklist en ecriture (a : pointeur fin de fichier) et en lecture
     $fa = fopen("ips.txt", "a");
     $fr = fopen("ips.txt", "r");
     $filer = fgets($fr, 4096);
@@ -38,6 +35,7 @@ function blacklist(){
     } 
 }
 
+//verification de la blacklist dans chaque page
 function blacklistFORM(){
     //Recuperation de l'ip
     $ip = get_ip();
@@ -53,4 +51,42 @@ function blacklistFORM(){
         header('location: aurevoir.php');
     }
 }  
+
+function captcha(){
+    $limiteSpam = 5;
+    $captcha = false;
+
+    $fc = fopen("cpt.txt", "r");
+    $valSpam = fgets($fc, 4096);
+
+    if ($valSpam >= $limiteSpam) {
+        $captcha = true;
+    }
+
+    fclose($fc); 
+    return $captcha;
+    //ouverture cpt.txt en lecture
+    //lire val et comparer à la limite
+    //si cpt >= limit -> captcha = true
+    //return captcha
+}
+
+//fonction permettant d'incrémenter le compteur de spam
+function cptPlus(){
+
+    //récuperation de la valeur du fichier
+    $cpt = file_get_contents("cpt.txt");
+    $cpt = trim($cpt);
+    //incrémentation
+    $cpt = $cpt + 1;
+
+    //ouverture + écriture + fermeture
+    $fcpt = fopen("cpt.txt", "w+");
+    fputs ($fcpt, $cpt);
+    fclose($fcpt); 
+}
+
+function resetCpt(){
+    //si date > 1 semaine -> cpt = 0
+}
 ?>

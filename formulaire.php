@@ -4,6 +4,8 @@ session_start();
 include 'fonction.php';
 
 blacklistFORM();
+
+$captcha = captcha();
 ?>
 
 <!doctype html>
@@ -11,7 +13,7 @@ blacklistFORM();
 <head>
   <meta charset="utf-8">
   <title>Formulaire</title>
-  <link rel="stylesheet" href="css/style.css">
+  <!--<link rel="stylesheet" href="css/style.css">-->
 </head>
 <body>
   
@@ -31,7 +33,13 @@ blacklistFORM();
         <p>
 			<!--<input type="text" name="validation" tabindex="-1" autocomplete="off" id="validation" placeholder="validation"/>-->
             <input type="text" name="validation" tabindex="-1" autocomplete="off" id="validation" placeholder="validation" value=""/>
-		</p>	
+		</p>
+		<?php if ($captcha):
+		//afficher captcha si nécessaire -> $captcha = captcha() -> if $captcha == true -> affichage?>
+		<p>
+			<input type="text" name="captcha" id="captcha" placeholder="Captcha"/>
+		</p>
+		<?php endif; ?>	
 		<p>
 			<input type="submit" value="Suivant" name="send" />
 		</p>

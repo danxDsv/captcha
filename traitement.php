@@ -3,6 +3,8 @@ session_start();
 
 include 'fonction.php';
 
+blacklistFORM();
+
 //verification submit
 if(isset($_POST["send"])){
 
@@ -28,7 +30,6 @@ if(isset($_POST["send"])){
     }else {
         blacklist();    
     }
-
 }else{
 
     header('location: formulaire.php');
