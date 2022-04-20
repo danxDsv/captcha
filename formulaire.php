@@ -4,7 +4,7 @@ session_start();
 include 'fonction.php';
 
 blacklistFORM();
-
+resetCpt();
 
 $captcha = BoolCaptcha();
 

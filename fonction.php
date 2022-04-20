@@ -28,7 +28,6 @@ function blacklist(){
     } else { 
         //si pas trouvée -> écriture puis out
         fputs ($fa, "$ip\n");
-        //echo ("ecriture");
         fclose($fa);
         fclose($fr); 
         header('location: aurevoir.php');
@@ -85,7 +84,7 @@ function cptPlus($filename){
 
     //ouverture + écriture + fermeture
     $fcpt = fopen($filename, "w+");
-    fputs ($fcpt, $cpt);
+    fputs ($fcpt, "$cpt");
     fclose($fcpt); 
 }
 
@@ -102,6 +101,7 @@ function resetCpt(){
 
     //si date > 1 semaine -> cpt = 0
     $interval = $dateCpt->diff($date);
+
     if ($interval->days >= 7) {
         //ouverture + écriture + fermeture
         $fcpt = fopen("cpt.txt", "w+");

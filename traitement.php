@@ -4,6 +4,7 @@ session_start();
 include 'fonction.php';
 
 blacklistFORM();
+resetCpt();
 
 if (!isset($_SESSION["visite"]) || !$_SESSION["visite"]) {
 	header('location: index.php');
