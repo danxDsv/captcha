@@ -1,7 +1,20 @@
 <?php
+session_start();
+
 include 'fonction.php';
 
 blacklistFORM();
+resetCpt();
+
+//variable session de visite
+if (!isset($_SESSION["visite"])) {
+    $_SESSION["visite"] = false;
+}
+//compteur de visite
+if (!$_SESSION["visite"]) {
+    $_SESSION["visite"] = true;
+    cptPlus("cptVisiteur.txt");
+}
 ?>
 
 <!doctype html>

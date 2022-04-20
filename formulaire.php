@@ -5,7 +5,12 @@ include 'fonction.php';
 
 blacklistFORM();
 
+
 $captcha = BoolCaptcha();
+
+if (!isset($_SESSION["visite"]) || !$_SESSION["visite"]) {
+	header('location: index.php');
+}
 ?>
 
 <!doctype html>

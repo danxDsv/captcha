@@ -5,6 +5,10 @@ include 'fonction.php';
 
 blacklistFORM();
 
+if (!isset($_SESSION["visite"]) || !$_SESSION["visite"]) {
+	header('location: index.php');
+}
+
 //verification submit
 if(isset($_POST["send"])){
 

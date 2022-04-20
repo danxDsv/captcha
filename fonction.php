@@ -12,7 +12,7 @@ function blacklist(){
     $ip = get_ip();
 
     //compteur de spam
-    cptPlus();
+    cptPlus("cpt.txt");
 
     //Ouverture du fichier blacklist en ecriture (a : pointeur fin de fichier) et en lecture
     $fa = fopen("ips.txt", "a");
@@ -55,15 +55,18 @@ function blacklistFORM(){
 //renvoie un boolean qui permet de savoir si on a besoin d'un captcha
 function BoolCaptcha(){
     //variables initiales 
-    $limiteSpam = 5; //limite de spam
-    $captcha = false; //booleen qui permet de gérer l'affichage
+    $limiteSpam = 5;        //limite de spam
+    $limiteVisiteur = 50;   //limite de visiteur 
+    $captcha = false;       //booleen qui permet de gérer l'affichage
 
     //ouverture cpt.txt en lecture
     $fc = fopen("cpt.txt", "r");
+    $fv = fopen("cptVisiteur.txt", "r");
     //lecture de la valeur
     $valSpam = fgets($fc, 4096);
+    $valVisiteur = fgets($fv, 4096);
     //comparaison avec la limite
-    if ($valSpam >= $limiteSpam) {
+    if ($valSpam >= $limiteSpam || $valVisiteur >= $limiteVisiteur) {
         $captcha = true; //si val est >= on affichera
     }
 
@@ -72,23 +75,46 @@ function BoolCaptcha(){
 }
 
 //incrémente le compteur de spam
-function cptPlus(){
+function cptPlus($filename){
 
     //récuperation de la valeur du fichier
-    $cpt = file_get_contents("cpt.txt");
+    $cpt = file_get_contents($filename);
     $cpt = trim($cpt);
     //incrémentation
     $cpt = $cpt + 1;
 
     //ouverture + écriture + fermeture
-    $fcpt = fopen("cpt.txt", "w+");
+    $fcpt = fopen($filename, "w+");
     fputs ($fcpt, $cpt);
     fclose($fcpt); 
 }
 
-//réinitialise le compteur
+//réinitialise le compteur si besoin
 function resetCpt(){
-    $date = date("d-m-Y", time());
+    //date actuelle jour-mois-année
+    $dateavt = date("d-m-Y", time());
+    $date = new DateTime($dateavt);
+
+    //récupération de la date des compteurs
+    $dateCptA = file_get_contents("date.txt");
+    $dateCptA = trim($dateCptA);
+    $dateCpt = new DateTime($dateCptA);
+
     //si date > 1 semaine -> cpt = 0
+    $interval = $dateCpt->diff($date);
+    if ($interval->days >= 7) {
+        //ouverture + écriture + fermeture
+        $fcpt = fopen("cpt.txt", "w+");
+        fputs ($fcpt, "0");
+        fclose($fcpt); 
+        //ouverture + écriture + fermeture
+        $fcptV = fopen("cptVisiteur.txt", "w+");
+        fputs ($fcptV, "0");
+        fclose($fcptV); 
+        //ouverture + écriture + fermeture
+        $fdate = fopen("date.txt", "w+");
+        fputs ($fdate, $dateavt);
+        fclose($fdate); 
+    }
 }
 ?>
