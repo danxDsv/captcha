@@ -5,6 +5,7 @@ include 'fonction.php';
 
 blacklistFORM();
 resetCpt();
+$Boolcaptcha = BoolCaptcha();
 
 if (!isset($_SESSION["visite"]) || !$_SESSION["visite"]) {
 	header('location: index.php');
@@ -26,8 +27,24 @@ if(isset($_POST["send"])){
             ){
                 $nom = strip_tags($_POST["nom"]);
                 $prenom = strip_tags($_POST["prenom"]);
-            }else{
-                echo "Veuillez remplir tous les champs";
+            }/*else{
+                echo "<script type=\"text/javascript\">";
+                echo "alert('Complétez tous les champs');";
+                echo "window.history.back();";
+                echo "</script>";
+            }*/ 
+            //si le captcha est présent
+            if ($Boolcaptcha) {
+                //si le captcha a été envoyé et qu'il n'est pas vide
+                if (isset($_POST["captcha"]) && !empty($_POST["captcha"])) {
+                    //si le résultat en chiffre et en lettre sont faux
+                    if ( ($_POST["captcha"] != $_SESSION["captcha"]) && ($_POST["captcha"] != $_SESSION["captchaLettre"]) ) {
+                        echo "<script type=\"text/javascript\">";
+                        echo "alert('Le résultat du calcul est faux');";
+                        echo "window.history.back();";
+                        echo "</script>";
+                    }
+                }
             }
         }else{
             blacklist(); 

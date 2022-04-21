@@ -2,14 +2,21 @@
 session_start();
 
 include 'fonction.php';
+include 'captcha.php';
 
 blacklistFORM();
 resetCpt();
 
-$captcha = BoolCaptcha();
+$Boolcaptcha = BoolCaptcha();
 
-if (!isset($_SESSION["visite"]) || !$_SESSION["visite"]) {
-	header('location: index.php');
+//variable session de visite
+if (!isset($_SESSION["visite"])) {
+    $_SESSION["visite"] = false;
+}
+//compteur de visite
+if (!$_SESSION["visite"]) {
+    $_SESSION["visite"] = true;
+    cptPlus("cptVisiteur.txt");
 }
 ?>
 
@@ -25,10 +32,10 @@ if (!isset($_SESSION["visite"]) || !$_SESSION["visite"]) {
     <form id="formulaire" action="traitement.php" method="post" onsubmit='confirmer()'>
 		<!-- vrais input du formulaire mettre des patterns si possible pour bloquer spam d'url-->
 		<p>
-			<input type="text" name="nom" id="nom" pattern="^[a-zA-Z][a-zA-Z .,'-]*$" placeholder="Nom"/>
+			<input type="text" name="nom" id="nom" pattern="^[a-zA-Z][a-zA-Z .,'-]*$" placeholder="Nom" required/>
 		</p>
 		<p>
-			<input type="text" name="prenom" id="prenom" pattern="^[a-zA-Z][a-zA-Z .,'-]*$" placeholder="Prenom"/>
+			<input type="text" name="prenom" id="prenom" pattern="^[a-zA-Z][a-zA-Z .,'-]*$" placeholder="Prenom" required/>
 		</p>
 		<!--Pot de miel JS-->
         <p>
@@ -39,10 +46,11 @@ if (!isset($_SESSION["visite"]) || !$_SESSION["visite"]) {
 			<!--<input type="text" name="validation" tabindex="-1" autocomplete="off" id="validation" placeholder="validation"/>-->
             <input type="text" name="validation" tabindex="-1" autocomplete="off" id="validation" placeholder="validation" value=""/>
 		</p>
-		<?php if ($captcha):
-		//afficher captcha si nécessaire -> $captcha = captcha() -> if $captcha == true -> affichage?>
+		<?php if ($Boolcaptcha):
+		//afficher captcha si nécessaire -> $captcha = captcha() -> if $captcha == true -> include captcha.php?>
 		<p>
-			<input type="text" name="captcha" id="captcha" placeholder="Captcha"/>
+			<label for="captcha">Combien font <?php echo captcha(); ?> ?</label></br>
+			<input type="text" name="captcha" id="captcha" placeholder="résultat" required/>
 		</p>
 		<?php endif; ?>	
 		<p>

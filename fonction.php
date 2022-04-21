@@ -70,6 +70,7 @@ function BoolCaptcha(){
     }
 
     fclose($fc); 
+    fclose($fv);
     return $captcha;
 }
 
