@@ -41,7 +41,7 @@ if (!$_SESSION["visite"]) {
 		</div>
 		<!--Pot de miel JS-->
         <div>
-			<input type="tel" name="telephone" id="telephone" tabindex="-1" autocomplete="off" placeholder="telephone" value=""/>
+			<input type="tel" name="telephone" id="telephone" tabindex="-1" autocomplete="off" placeholder="téléphone" value=""/>
 		</div>
 		<!--Pot de miel CSS-->
         <div>
