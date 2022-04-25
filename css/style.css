@@ -8,3 +8,7 @@ form#formulaire input:not(:focus):invalid ~ span {
 form#formulaire span {
     display: none;
 }
+
+div#form {
+    padding: 1%;
+}

@@ -31,29 +31,29 @@ if (!$_SESSION["visite"]) {
   
     <form id="formulaire" action="traitement.php" method="post">
 		<!-- vrais input du formulaire mettre des patterns si possible pour bloquer spam d'url-->
-		<p>
+		<div id="form">
 			<input type="text" name="nom" id="nom" pattern="^([ \u00c0-\u01ffa-zA-Z'\-])+$" placeholder="Nom" required/>
 			<span>Veuillez entrer uniquement des lettres</span>
-		</p>
-		<p>
+		</div>
+		<div id="form">
 			<input type="text" name="prenom" id="prenom" pattern="^([ \u00c0-\u01ffa-zA-Z'\-])+$" placeholder="Prenom" required/>
 			<span>Veuillez entrer uniquement des lettres</span>
-		</p>
+		</div>
 		<!--Pot de miel JS-->
-        <p>
+        <div>
 			<input type="tel" name="telephone" id="telephone" tabindex="-1" autocomplete="off" placeholder="telephone" value=""/>
-		</p>
+		</div>
 		<!--Pot de miel CSS-->
-        <p>
+        <div>
 			<!--<input type="text" name="validation" tabindex="-1" autocomplete="off" id="validation" placeholder="validation"/>-->
             <input type="text" name="validation" tabindex="-1" autocomplete="off" id="validation" placeholder="validation" value=""/>
-		</p>
+		</div>
 		<?php if ($Boolcaptcha):
 		//afficher captcha si nécessaire -> $captcha = Boolcaptcha() -> if $captcha == true -> include captcha.php?>
-		<p>
+		<div id="form">
 			<label for="captcha">Combien font <?php echo captcha(); ?> ?</label></br>
 			<input type="text" name="captcha" id="captcha" placeholder="résultat" required/>
-		</p>
+		</div>
 		<?php endif; ?>	
 		<p>
 			<input type="submit" value="Suivant" name="send"/>

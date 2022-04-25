@@ -54,8 +54,8 @@ function blacklistFORM(){
 //renvoie un boolean qui permet de savoir si on a besoin d'un captcha
 function BoolCaptcha(){
     //variables initiales 
-    $limiteSpam = 5;        //limite de spam
-    $limiteVisiteur = 50;   //limite de visiteur 
+    $limiteSpam = 0;        //limite de spam
+    $limiteVisiteur = 0;   //limite de visiteur 
     $captcha = false;       //booleen qui permet de gérer l'affichage
 
     //ouverture cpt.txt en lecture
