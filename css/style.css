@@ -1,1 +1,10 @@
 input#validation { display: none !important;}
+
+form#formulaire input:not(:focus):invalid ~ span {
+    display: block;
+    color: red;
+}
+
+form#formulaire span {
+    display: none;
+}

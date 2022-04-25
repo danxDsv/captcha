@@ -7,8 +7,14 @@ blacklistFORM();
 resetCpt();
 $Boolcaptcha = BoolCaptcha();
 
-if (!isset($_SESSION["visite"]) || !$_SESSION["visite"]) {
-	header('location: index.php');
+//variable session de visite
+if (!isset($_SESSION["visite"])) {
+    $_SESSION["visite"] = false;
+}
+//compteur de visite
+if (!$_SESSION["visite"]) {
+    $_SESSION["visite"] = true;
+    cptPlus("cptVisiteur.txt");
 }
 
 //verification submit
@@ -43,6 +49,10 @@ if(isset($_POST["send"])){
                         echo "alert('Le résultat du calcul est faux');";
                         echo "window.history.back();";
                         echo "</script>";
+                    } else {
+                        //supprimer resultat pour que le resultat puisse changer avec retour en arrière
+                        unset($_SESSION["captcha"]);
+                        unset($_SESSION["captchaLettre"]);
                     }
                 }
             }
