@@ -7,8 +7,23 @@ include 'captcha.php';
 blacklistFORM();
 resetCpt();
 
-$Boolcaptcha = BoolCaptcha();
+$boolCaptcha = BoolCaptcha();
 
+//supp le compteur de formulaire si ça fait plus de 24h
+if (isset($_SESSION['start'])) {
+	if ((time()-$_SESSION['start']) > 60*2) {
+		unset($_SESSION['start']);
+    	unset($_SESSION['nbForm']);
+		echo 'reset';
+	}
+} else {
+	$_SESSION['start'] = time();
+}
+
+//variable session qui compte le nombre de formulaire transmis
+if (!isset($_SESSION["nbForm"])) {
+    $_SESSION["nbForm"] = 0;
+}
 //variable session de visite
 if (!isset($_SESSION["visite"])) {
     $_SESSION["visite"] = false;
@@ -48,7 +63,7 @@ if (!$_SESSION["visite"]) {
 			<!--<input type="text" name="validation" tabindex="-1" autocomplete="off" id="validation" placeholder="validation"/>-->
             <input type="text" name="validation" tabindex="-1" autocomplete="off" id="validation" placeholder="validation" value=""/>
 		</div>
-		<?php if ($Boolcaptcha):
+		<?php if ($boolCaptcha):
 		//afficher captcha si nécessaire -> $captcha = Boolcaptcha() -> if $captcha == true -> include captcha.php?>
 		<div id="form">
 			<label for="captcha">Combien font <?php echo captcha(); ?> ?</label></br>
@@ -59,6 +74,6 @@ if (!$_SESSION["visite"]) {
 			<input type="submit" value="Suivant" name="send"/>
 		</p>
 	</form>
-    <script src="js/script.js"></script>
 </body>
+<script src="js/script.js"></script>
 </html>
