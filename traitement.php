@@ -7,6 +7,21 @@ blacklistFORM();
 resetCpt();
 $Boolcaptcha = BoolCaptcha();
 
+//supp le compteur de formulaire si ça fait plus de 24h
+if (isset($_SESSION['start'])) {
+	if ((time()-$_SESSION['start']) > 60*2) {
+		unset($_SESSION['start']);
+    	unset($_SESSION['nbForm']);
+		echo 'reset';
+	}
+} else {
+	$_SESSION['start'] = time();
+}
+
+//variable session qui compte le nombre de formulaire transmis
+if (!isset($_SESSION["nbForm"])) {
+    $_SESSION["nbForm"] = 0;
+}
 //variable session de visite
 if (!isset($_SESSION["visite"])) {
     $_SESSION["visite"] = false;
@@ -39,6 +54,15 @@ if(isset($_POST["send"])){
                 echo "window.history.back();";
                 echo "</script>";
             }*/ 
+            
+            //limite le nombre de formulaire à 3 par jour
+            $_SESSION["nbForm"] += 1;
+            if ($_SESSION["nbForm"] > 3) {
+                echo "<script type=\"text/javascript\">";
+                echo "alert('Vous ne pouvez plus envoyer de formulaire pour le moment');";
+                echo "document.location.href='formulaire.php';";
+                echo "</script>";
+            }
             //si le captcha est présent
             if ($Boolcaptcha) {
                 //si le captcha a été envoyé et qu'il n'est pas vide
@@ -47,7 +71,7 @@ if(isset($_POST["send"])){
                     if ( ($_POST["captcha"] != $_SESSION["captcha"]) && ($_POST["captcha"] != $_SESSION["captchaLettre"]) ) {
                         echo "<script type=\"text/javascript\">";
                         echo "alert('Le résultat du calcul est faux');";
-                        echo "window.history.back();";
+                        echo "document.location.href='formulaire.php';";
                         echo "</script>";
                     } else {
                         //supprimer resultat pour que le resultat puisse changer avec retour en arrière
@@ -68,6 +92,7 @@ if(isset($_POST["send"])){
 
 }
 
+
 ?>
 
 <!doctype html>
@@ -86,10 +111,11 @@ if(isset($_POST["send"])){
     if(isset($nom) && isset($prenom)){
         echo "<p>Bonjour $prenom $nom</p>";
         echo "<p>Formulaire validé</p>";
+        echo $_SESSION["nbForm"]."\n";
     } 
      
        
 ?>
-    <script src="js/script.js"></script>
 </body>
+<script src="js/script.js"></script>
 </html>
