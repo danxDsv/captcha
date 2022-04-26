@@ -10,11 +10,12 @@ resetCpt();
 $boolCaptcha = BoolCaptcha();
 
 //supp le compteur de formulaire si ça fait plus de 24h (60*60*24)
+//limite de temps d'attente en secondes
+$limiteTps = 60*4;
 if (isset($_SESSION['start'])) {
-	if ((time()-$_SESSION['start']) > 60*3) {
+	if ((time()-$_SESSION['start']) > $limiteTps) {
 		unset($_SESSION['start']);
     	unset($_SESSION['nbForm']);
-		echo 'reset';
 	}
 } else {
 	$_SESSION['start'] = time();
