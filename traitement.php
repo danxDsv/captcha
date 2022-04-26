@@ -7,9 +7,9 @@ blacklistFORM();
 resetCpt();
 $Boolcaptcha = BoolCaptcha();
 
-//supp le compteur de formulaire si ça fait plus de 24h
+//supp le compteur de formulaire si ça fait plus de 24h (60*60*24)
 if (isset($_SESSION['start'])) {
-	if ((time()-$_SESSION['start']) > 60*2) {
+	if ((time()-$_SESSION['start']) > 60*3) {
 		unset($_SESSION['start']);
     	unset($_SESSION['nbForm']);
 		echo 'reset';
@@ -58,10 +58,30 @@ if(isset($_POST["send"])){
             //limite le nombre de formulaire à 3 par jour
             $_SESSION["nbForm"] += 1;
             if ($_SESSION["nbForm"] > 3) {
-                echo "<script type=\"text/javascript\">";
-                echo "alert('Vous ne pouvez plus envoyer de formulaire pour le moment');";
-                echo "document.location.href='formulaire.php';";
-                echo "</script>";
+                //temps restant
+                //Pour 24h : $tps = (60*60*24)-(time()-$_SESSION['start']);
+                $tps = (60*4)-(time()-$_SESSION['start']);
+                $tpsMin = (int)($tps/60);
+                $tpsH = (int)($tpsMin/60);
+                
+                //message d'erreur
+                if ($tps < 60) {
+                    echo "<script type=\"text/javascript\">";
+                    echo "alert('Vous ne pouvez plus envoyer de formulaire pour le moment, Attendez '+'$tps'+' seconde(s)');";
+                    echo "document.location.href='formulaire.php';";
+                    echo "</script>";
+                } elseif ($tpsH >= 1) {
+                    echo "<script type=\"text/javascript\">";
+                    echo "alert('Vous ne pouvez plus envoyer de formulaire pour le moment, Attendez '+'$tpsH'+' heure(s)');";
+                    echo "document.location.href='formulaire.php';";
+                    echo "</script>";
+                } else {
+                    echo "<script type=\"text/javascript\">";
+                    echo "alert('Vous ne pouvez plus envoyer de formulaire pour le moment, Attendez '+'$tpsMin'+' minute(s)');";
+                    echo "document.location.href='formulaire.php';";
+                    echo "</script>";
+                }
+                
             }
             //si le captcha est présent
             if ($Boolcaptcha) {
@@ -77,8 +97,11 @@ if(isset($_POST["send"])){
                         //supprimer resultat pour que le resultat puisse changer avec retour en arrière
                         unset($_SESSION["captcha"]);
                         unset($_SESSION["captchaLettre"]);
+                        header('location: réussi.php');
                     }
                 }
+            } else {
+                header('location: réussi.php');
             }
         }else{
             blacklist(); 
