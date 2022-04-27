@@ -37,22 +37,20 @@ function captcha()
     return $txt;
 }
 
-function verifCaptcha($limiteTps, $nbMaxForm) 
+function verifCaptcha($limiteTps, $nbMaxForm, $limiteErreur, $tpsPunition) 
 {
     //si le captcha a été envoyé et qu'il n'est pas vide ou pour 0 que c'est une valeur numérique
     if (isset($_POST["captcha"]) && (is_numeric($_POST["captcha"]) || !empty($_POST["captcha"]))) {
 
         //si le résultat en chiffre et en lettre sont faux
         if ( ($_POST["captcha"] != $_SESSION["captcha"]) && (strcasecmp($_POST["captcha"], $_SESSION["captchaLettre"]) != 0 )) {
-            echo "<script type=\"text/javascript\">";
-            echo "alert('Le résultat du calcul est faux');";
-            echo "document.location.href='formulaire.php';";
-            echo "</script>";
+            verifNbErreur($tpsPunition, $limiteErreur);
         } else {
             //supprimer resultat pour que le resultat puisse changer avec retour en arrière
             unset($_SESSION["captcha"]);
             unset($_SESSION["captchaLettre"]);
             
+            verifNbErreur($tpsPunition, $limiteErreur);
             verifNbForm($limiteTps, $nbMaxForm);
         }
     }

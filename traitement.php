@@ -21,7 +21,7 @@ if(isset($_POST["send"])){
                 //si le captcha est présent
                 if ($needCaptcha) {
                     //verifie le résultat du Captcha
-                    verifCaptcha($limiteTps, $nbMaxForm);
+                    verifCaptcha($limiteTps, $nbMaxForm, $limiteErreur, $tpsPunition);
                 } else {
                     //Verifie le nb de form envoyés selon le temps indiqué
                     verifNbForm($limiteTps, $nbMaxForm);
@@ -35,7 +35,7 @@ if(isset($_POST["send"])){
     }else {
         blacklist();    
     }
-}else{
+} else{
     header('location: formulaire.php');
 }
 ?>

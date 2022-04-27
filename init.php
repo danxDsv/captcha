@@ -32,4 +32,21 @@ if (!$_SESSION["visite"]) {
     $_SESSION["visite"] = true;
     cptPlus("cptVisiteur.txt");
 }
+//compteur d'erreur pour le captcha
+if (!isset($_SESSION["erreur"])) {
+    $_SESSION["erreur"] = 0;
+}
+//reset chrono erreur
+if (isset($_SESSION["punition"])) {
+	if ((time()-$_SESSION["punition"]) > $tpsPunition) {
+		unset($_SESSION["punition"]);
+    	unset($_SESSION["erreur"]);
+	}
+}
+//debut chrono trop d'erreurs
+if (!isset($_SESSION["punition"])) {
+    if ($_SESSION["erreur"] >= $limiteErreur) {
+        $_SESSION["punition"] = time();
+    }
+}
 ?>
