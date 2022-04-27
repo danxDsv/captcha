@@ -7,7 +7,7 @@ function get_ip()
     return $ip;
 }
 
-//permet de noter l'ip du spam dans un txt pour le ralentir à court terme
+//permet de noter l'ip du spam dans un txt
 function blacklist()
 {
     //Recuperation de l'ip
@@ -55,7 +55,7 @@ function blacklistFORM()
 }
 
 //renvoie un boolean qui permet de savoir si on a besoin d'un captcha
-function BoolCaptcha()
+function needCaptcha()
 {
     //variables initiales
     $limiteSpam = 0;        //limite de spam
@@ -156,3 +156,5 @@ function verifNbForm($limiteTps)
     }
     header('location: réussi.php');
 }
+
+?>

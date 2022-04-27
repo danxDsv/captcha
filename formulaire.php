@@ -1,39 +1,5 @@
 <?php
-session_start();
-
-include 'fonction.php';
-include 'captcha.php';
-
-blacklistFORM();
-resetCpt();
-
-$boolCaptcha = BoolCaptcha();
-
-//supp le compteur de formulaire si ça fait plus de 24h (60*60*24)
-//limite de temps d'attente en secondes
-$limiteTps = 60*4;
-if (isset($_SESSION['start'])) {
-    if ((time()-$_SESSION['start']) > $limiteTps) {
-        unset($_SESSION['start']);
-        unset($_SESSION['nbForm']);
-    }
-} else {
-    $_SESSION['start'] = time();
-}
-
-//variable session qui compte le nombre de formulaire transmis
-if (!isset($_SESSION["nbForm"])) {
-    $_SESSION["nbForm"] = 0;
-}
-//variable session de visite
-if (!isset($_SESSION["visite"])) {
-    $_SESSION["visite"] = false;
-}
-//compteur de visite
-if (!$_SESSION["visite"]) {
-    $_SESSION["visite"] = true;
-    cptPlus("cptVisiteur.txt");
-}
+include 'init.php'
 ?>
 
 <!doctype html>
@@ -64,8 +30,8 @@ if (!$_SESSION["visite"]) {
 			<!--<input type="text" name="validation" tabindex="-1" autocomplete="off" id="validation" placeholder="validation"/>-->
             <input type="text" name="validation" tabindex="-1" autocomplete="off" id="validation" placeholder="validation" value=""/>
 		</div>
-		<?php if ($boolCaptcha):
-        //afficher captcha si nécessaire -> $captcha = Boolcaptcha() -> if $captcha == true -> include captcha.php?>
+		<?php if ($needCaptcha):
+        //afficher captcha si nécessaire?>
 		<div id="form">
 			<label for="captcha">Combien font <?php echo captcha(); ?> ?</label></br>
 			<input type="text" name="captcha" id="captcha" placeholder="résultat" required/>
