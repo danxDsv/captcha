@@ -1,13 +1,15 @@
 <?php
 
 //fonction pour recuperer l'ip
-function get_ip(){
+function get_ip()
+{
     $ip = $_SERVER["REMOTE_ADDR"];
     return $ip;
 }
 
 //permet de noter l'ip du spam dans un txt pour le ralentir à court terme
-function blacklist(){
+function blacklist()
+{
     //Recuperation de l'ip
     $ip = get_ip();
 
@@ -23,19 +25,20 @@ function blacklist(){
     //si oui -> out
     if (preg_match('.^'.preg_quote($ip).'$.m', $filer)) {
         fclose($fa);
-        fclose($fr); 
+        fclose($fr);
         header('location: aurevoir.php');
-    } else { 
+    } else {
         //si pas trouvée -> écriture puis out
-        fputs ($fa, "$ip\n");
+        fputs($fa, "$ip\n");
         fclose($fa);
-        fclose($fr); 
+        fclose($fr);
         header('location: aurevoir.php');
-    } 
+    }
 }
 
 //verification de la blacklist dans chaque page
-function blacklistFORM(){
+function blacklistFORM()
+{
     //Recuperation de l'ip
     $ip = get_ip();
 
@@ -46,16 +49,17 @@ function blacklistFORM(){
     //Recherche si ip est dans la blacklist
     //si oui -> out
     if (preg_match('.^'.preg_quote($ip).'$.m', $filer)) {
-        fclose($fr); 
+        fclose($fr);
         header('location: aurevoir.php');
     }
-}  
+}
 
 //renvoie un boolean qui permet de savoir si on a besoin d'un captcha
-function BoolCaptcha(){
-    //variables initiales 
+function BoolCaptcha()
+{
+    //variables initiales
     $limiteSpam = 0;        //limite de spam
-    $limiteVisiteur = 0;   //limite de visiteur 
+    $limiteVisiteur = 0;   //limite de visiteur
     $captcha = false;       //booleen qui permet de gérer l'affichage
 
     //ouverture cpt.txt en lecture
@@ -69,13 +73,14 @@ function BoolCaptcha(){
         $captcha = true; //si val est >= on affichera
     }
 
-    fclose($fc); 
+    fclose($fc);
     fclose($fv);
     return $captcha;
 }
 
 //incrémente le compteur de spam
-function cptPlus($filename){
+function cptPlus($filename)
+{
 
     //récuperation de la valeur du fichier
     $cpt = file_get_contents($filename);
@@ -85,12 +90,13 @@ function cptPlus($filename){
 
     //ouverture + écriture + fermeture
     $fcpt = fopen($filename, "w+");
-    fputs ($fcpt, "$cpt");
-    fclose($fcpt); 
+    fputs($fcpt, "$cpt");
+    fclose($fcpt);
 }
 
 //réinitialise le compteur si besoin
-function resetCpt(){
+function resetCpt()
+{
     //date actuelle jour-mois-année
     $dateavt = date("d-m-Y", time());
     $date = new DateTime($dateavt);
@@ -106,16 +112,47 @@ function resetCpt(){
     if ($interval->days >= 7) {
         //ouverture + écriture + fermeture
         $fcpt = fopen("cpt.txt", "w+");
-        fputs ($fcpt, "0");
-        fclose($fcpt); 
+        fputs($fcpt, "0");
+        fclose($fcpt);
         //ouverture + écriture + fermeture
         $fcptV = fopen("cptVisiteur.txt", "w+");
-        fputs ($fcptV, "0");
-        fclose($fcptV); 
+        fputs($fcptV, "0");
+        fclose($fcptV);
         //ouverture + écriture + fermeture
         $fdate = fopen("date.txt", "w+");
-        fputs ($fdate, $dateavt);
-        fclose($fdate); 
+        fputs($fdate, $dateavt);
+        fclose($fdate);
     }
 }
-?>
+
+//Verifie le nombre de formulaires envoyés
+function verifNbForm($limiteTps)
+{
+    $_SESSION["nbForm"] += 1;
+    //limite le nombre de formulaire à 3 par jour
+    if ($_SESSION["nbForm"] > 3) {
+        //temps restant
+        $tps = ($limiteTps)-(time()-$_SESSION['start']);
+        $tpsMin = (int)($tps/60);
+        $tpsH = (int)($tpsMin/60);
+                                
+        //message d'erreur
+        if ($tps < 60) {
+            echo "<script type=\"text/javascript\">";
+            echo "alert('Vous ne pouvez plus envoyer de formulaire pour le moment, Attendez '+'$tps'+' seconde(s)');";
+            echo "document.location.href='formulaire.php';";
+            echo "</script>";
+        } elseif ($tpsH >= 1) {
+            echo "<script type=\"text/javascript\">";
+            echo "alert('Vous ne pouvez plus envoyer de formulaire pour le moment, Attendez '+'$tpsH'+' heure(s)');";
+            echo "document.location.href='formulaire.php';";
+            echo "</script>";
+        } else {
+            echo "<script type=\"text/javascript\">";
+            echo "alert('Vous ne pouvez plus envoyer de formulaire pour le moment, Attendez '+'$tpsMin'+' minute(s)');";
+            echo "document.location.href='formulaire.php';";
+            echo "</script>";
+        }
+    }
+    header('location: réussi.php');
+}

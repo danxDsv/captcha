@@ -1,15 +1,16 @@
 <?php
-function calc() {
+function calc()
+{
     //liste de nombres en toute lettre
     $liste = array('zero', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept', 'huit', 'neuf', 'dix', 'onze', 'douze', 'treize',
                     'quatorze', 'quinze', 'seize', 'dix-sept', 'dix-huit', 'dix-neuf', 'vingt');
 
     //tirage de l'opérateur 0->plus ; 1->moins
-    $op = rand(0,1);
+    $op = rand(0, 1);
 
-    //tirage de 2 chiffres aléatoire entre 0 et 10 
-    $nb1 = rand(0,10);
-    $nb2 = rand(0,10);
+    //tirage de 2 chiffres aléatoire entre 0 et 10
+    $nb1 = rand(0, 10);
+    $nb2 = rand(0, 10);
     //resultat du calcul en chiffre et en lettre + phrase à afficher
     if ($op==0) {
         $resultat = $nb1 + $nb2;
@@ -25,16 +26,37 @@ function calc() {
             $resultat = $nb2 - $nb1;
             $resultatLettre = $liste[$resultat];
             $txt = $liste[$nb2].' moins '.$liste[$nb1];
-        }       
+        }
     }
     return array($resultat, $resultatLettre, $txt);
 }
 
-function captcha() {
+function captcha()
+{
     list($resultat, $resultatLettre, $txt) = calc();
     $_SESSION['captcha'] = $resultat;
     $_SESSION['captchaLettre'] = $resultatLettre;
     return $txt;
 }
 
+function verifCaptcha($limiteTps) 
+{
+    //si le captcha a été envoyé et qu'il n'est pas vide
+    if (isset($_POST["captcha"]) && is_numeric($_POST["captcha"])) {
+
+        //si le résultat en chiffre et en lettre sont faux
+        if ( ($_POST["captcha"] != $_SESSION["captcha"]) && ($_POST["captcha"] != $_SESSION["captchaLettre"]) ) {
+            echo "<script type=\"text/javascript\">";
+            echo "alert('Le résultat du calcul est faux');";
+            echo "document.location.href='formulaire.php';";
+            echo "</script>";
+        } else {
+            //supprimer resultat pour que le resultat puisse changer avec retour en arrière
+            unset($_SESSION["captcha"]);
+            unset($_SESSION["captchaLettre"]);
+            
+            verifNbForm($limiteTps);
+        }
+    }
+}
 ?>

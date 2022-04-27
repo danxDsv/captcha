@@ -2,6 +2,7 @@
 session_start();
 
 include 'fonction.php';
+include 'captcha.php';
 
 blacklistFORM();
 resetCpt();
@@ -52,75 +53,11 @@ if(isset($_POST["send"])){
 
                 //si le captcha est présent
                 if ($BoolCaptcha) {
-                    //si le captcha a été envoyé et qu'il n'est pas vide
-                    if (isset($_POST["captcha"]) && is_numeric($_POST["captcha"])) {
-                        //si le résultat en chiffre et en lettre sont faux
-                        if ( ($_POST["captcha"] != $_SESSION["captcha"]) && ($_POST["captcha"] != $_SESSION["captchaLettre"]) ) {
-                            echo "<script type=\"text/javascript\">";
-                            echo "alert('Le résultat du calcul est faux');";
-                            echo "document.location.href='formulaire.php';";
-                            echo "</script>";
-                        } else {
-                            //supprimer resultat pour que le resultat puisse changer avec retour en arrière
-                            unset($_SESSION["captcha"]);
-                            unset($_SESSION["captchaLettre"]);
-                            $_SESSION["nbForm"] += 1;
-                            //limite le nombre de formulaire à 3 par jour
-                            if ($_SESSION["nbForm"] > 3) {
-                                //temps restant
-                                $tps = ($limiteTps)-(time()-$_SESSION['start']);
-                                $tpsMin = (int)($tps/60);
-                                $tpsH = (int)($tpsMin/60);
-                                
-                                //message d'erreur
-                                if ($tps < 60) {
-                                    echo "<script type=\"text/javascript\">";
-                                    echo "alert('Vous ne pouvez plus envoyer de formulaire pour le moment, Attendez '+'$tps'+' seconde(s)');";
-                                    echo "document.location.href='formulaire.php';";
-                                    echo "</script>";
-                                } elseif ($tpsH >= 1) {
-                                    echo "<script type=\"text/javascript\">";
-                                    echo "alert('Vous ne pouvez plus envoyer de formulaire pour le moment, Attendez '+'$tpsH'+' heure(s)');";
-                                    echo "document.location.href='formulaire.php';";
-                                    echo "</script>";
-                                } else {
-                                    echo "<script type=\"text/javascript\">";
-                                    echo "alert('Vous ne pouvez plus envoyer de formulaire pour le moment, Attendez '+'$tpsMin'+' minute(s)');";
-                                    echo "document.location.href='formulaire.php';";
-                                    echo "</script>";
-                                }           
-                            }
-                            header('location: réussi.php');
-                        }
-                    }
+                    //verifie le résultat du Captcha
+                    verifCaptcha($limiteTps);
                 } else {
-                    $_SESSION["nbForm"] += 1;
-                    //limite le nombre de formulaire à 3 par jour
-                    if ($_SESSION["nbForm"] > 3) {
-                        //temps restant
-                        $tps = ($limiteTps)-(time()-$_SESSION['start']);
-                        $tpsMin = (int)($tps/60);
-                        $tpsH = (int)($tpsMin/60);
-                        
-                        //message d'erreur
-                        if ($tps < 60) {
-                            echo "<script type=\"text/javascript\">";
-                            echo "alert('Vous ne pouvez plus envoyer de formulaire pour le moment, Attendez '+'$tps'+' seconde(s)');";
-                            echo "document.location.href='formulaire.php';";
-                            echo "</script>";
-                        } elseif ($tpsH >= 1) {
-                            echo "<script type=\"text/javascript\">";
-                            echo "alert('Vous ne pouvez plus envoyer de formulaire pour le moment, Attendez '+'$tpsH'+' heure(s)');";
-                            echo "document.location.href='formulaire.php';";
-                            echo "</script>";
-                        } else {
-                            echo "<script type=\"text/javascript\">";
-                            echo "alert('Vous ne pouvez plus envoyer de formulaire pour le moment, Attendez '+'$tpsMin'+' minute(s)');";
-                            echo "document.location.href='formulaire.php';";
-                            echo "</script>";
-                        }           
-                    }
-                    header('location: réussi.php');
+                    //Verifie le nb de form envoyés selon le temps indiqué
+                    verifNbForm($limiteTps);
                 }
             } else {
                 header('location: formulaire.php');
@@ -132,9 +69,7 @@ if(isset($_POST["send"])){
         blacklist();    
     }
 }else{
-
     header('location: formulaire.php');
-
 }
 ?>
 

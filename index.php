@@ -10,12 +10,12 @@ resetCpt();
 //limite de temps d'attente en secondes
 $limiteTps = 60*4;
 if (isset($_SESSION['start'])) {
-	if ((time()-$_SESSION['start']) > $limiteTps) {
-		unset($_SESSION['start']);
-    	unset($_SESSION['nbForm']);
-	}
+    if ((time()-$_SESSION['start']) > $limiteTps) {
+        unset($_SESSION['start']);
+        unset($_SESSION['nbForm']);
+    }
 } else {
-	$_SESSION['start'] = time();
+    $_SESSION['start'] = time();
 }
 
 //variable session qui compte le nombre de formulaire transmis

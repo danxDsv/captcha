@@ -13,12 +13,12 @@ $boolCaptcha = BoolCaptcha();
 //limite de temps d'attente en secondes
 $limiteTps = 60*4;
 if (isset($_SESSION['start'])) {
-	if ((time()-$_SESSION['start']) > $limiteTps) {
-		unset($_SESSION['start']);
-    	unset($_SESSION['nbForm']);
-	}
+    if ((time()-$_SESSION['start']) > $limiteTps) {
+        unset($_SESSION['start']);
+        unset($_SESSION['nbForm']);
+    }
 } else {
-	$_SESSION['start'] = time();
+    $_SESSION['start'] = time();
 }
 
 //variable session qui compte le nombre de formulaire transmis
@@ -65,7 +65,7 @@ if (!$_SESSION["visite"]) {
             <input type="text" name="validation" tabindex="-1" autocomplete="off" id="validation" placeholder="validation" value=""/>
 		</div>
 		<?php if ($boolCaptcha):
-		//afficher captcha si nécessaire -> $captcha = Boolcaptcha() -> if $captcha == true -> include captcha.php?>
+        //afficher captcha si nécessaire -> $captcha = Boolcaptcha() -> if $captcha == true -> include captcha.php?>
 		<div id="form">
 			<label for="captcha">Combien font <?php echo captcha(); ?> ?</label></br>
 			<input type="text" name="captcha" id="captcha" placeholder="résultat" required/>
