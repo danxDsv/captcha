@@ -14,20 +14,18 @@ function calc()
     //resultat du calcul en chiffre et en lettre + phrase à afficher
     if ($op==0) {
         $resultat = $nb1 + $nb2;
-        $resultatLettre = $liste[$resultat];
         $txt = $liste[$nb1].' plus '.$liste[$nb2];
     } else {
         //if pour ne pas avoir de résultat négatif pour la soustraction
         if ($nb1 >= $nb2) {
             $resultat = $nb1 - $nb2;
-            $resultatLettre = $liste[$resultat];
             $txt = $liste[$nb1].' moins '.$liste[$nb2];
         } else {
             $resultat = $nb2 - $nb1;
-            $resultatLettre = $liste[$resultat];
             $txt = $liste[$nb2].' moins '.$liste[$nb1];
         }
-    }
+    }  
+    $resultatLettre = $liste[$resultat];
     return array($resultat, $resultatLettre, $txt);
 }
 
@@ -41,11 +39,11 @@ function captcha()
 
 function verifCaptcha($limiteTps) 
 {
-    //si le captcha a été envoyé et qu'il n'est pas vide
-    if (isset($_POST["captcha"]) && is_numeric($_POST["captcha"])) {
+    //si le captcha a été envoyé et qu'il n'est pas vide ou pour 0 que c'est une valeur numérique
+    if (isset($_POST["captcha"]) && (is_numeric($_POST["captcha"]) || !empty($_POST["captcha"]))) {
 
         //si le résultat en chiffre et en lettre sont faux
-        if ( ($_POST["captcha"] != $_SESSION["captcha"]) && ($_POST["captcha"] != $_SESSION["captchaLettre"]) ) {
+        if ( ($_POST["captcha"] != $_SESSION["captcha"]) && (strcasecmp($_POST["captcha"], $_SESSION["captchaLettre"]) != 0 )) {
             echo "<script type=\"text/javascript\">";
             echo "alert('Le résultat du calcul est faux');";
             echo "document.location.href='formulaire.php';";

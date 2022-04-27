@@ -20,4 +20,6 @@ $nbMaxForm = 3;
 //temps limite du nbMax du formulaire en secondes
 $limiteTps = 60*4;
 
+//cpt
+$compteur = true;
 ?>

@@ -81,7 +81,6 @@ function needCaptcha()
 //incrémente le compteur de spam
 function cptPlus($filename)
 {
-
     //récuperation de la valeur du fichier
     $cpt = file_get_contents($filename);
     $cpt = trim($cpt);
@@ -128,9 +127,11 @@ function resetCpt()
 //Verifie le nombre de formulaires envoyés
 function verifNbForm($limiteTps)
 {
-    $_SESSION["nbForm"] += 1;
     //limite le nombre de formulaire à 3 par jour
-    if ($_SESSION["nbForm"] > 3) {
+    if ($_SESSION["nbForm"] < 3) {
+        $_SESSION["nbForm"] += 1;
+        header('location: réussi.php');   
+    } else {
         //temps restant
         $tps = ($limiteTps)-(time()-$_SESSION['start']);
         $tpsMin = (int)($tps/60);
@@ -152,9 +153,7 @@ function verifNbForm($limiteTps)
             echo "alert('Vous ne pouvez plus envoyer de formulaire pour le moment, Attendez '+'$tpsMin'+' minute(s)');";
             echo "document.location.href='formulaire.php';";
             echo "</script>";
-        }
+        }     
     }
-    header('location: réussi.php');
 }
-
 ?>

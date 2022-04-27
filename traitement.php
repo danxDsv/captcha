@@ -19,7 +19,7 @@ if(isset($_POST["send"])){
                 $prenom = strip_tags($_POST["prenom"]);
 
                 //si le captcha est présent
-                if ($BoolCaptcha) {
+                if ($needCaptcha) {
                     //verifie le résultat du Captcha
                     verifCaptcha($limiteTps);
                 } else {
