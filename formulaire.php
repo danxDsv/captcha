@@ -12,6 +12,7 @@ include 'init.php'
 <body>
   
     <form id="formulaire" action="traitement.php" method="post">
+
 		<!-- vrais input du formulaire mettre des patterns si possible pour bloquer spam d'url-->
 		<div id="form">
 			<input type="text" name="nom" id="nom" pattern="^([ \u00c0-\u01ffa-zA-Z'\-])+$" placeholder="Nom" required/>
@@ -21,15 +22,22 @@ include 'init.php'
 			<input type="text" name="prenom" id="prenom" pattern="^([ \u00c0-\u01ffa-zA-Z'\-])+$" placeholder="Prenom" required/>
 			<span>Veuillez entrer uniquement des lettres</span>
 		</div>
+
+		<?php if ($pmJS):?>
 		<!--Pot de miel JS-->
         <div>
 			<input type="tel" name="telephone" id="telephone" tabindex="-1" autocomplete="off" placeholder="téléphone" value=""/>
 		</div>
+		<?php endif; ?>
+
+		<?php if ($pmCSS):?>
 		<!--Pot de miel CSS-->
         <div>
 			<!--<input type="text" name="validation" tabindex="-1" autocomplete="off" id="validation" placeholder="validation"/>-->
             <input type="text" name="validation" tabindex="-1" autocomplete="off" id="validation" placeholder="validation" value=""/>
 		</div>
+		<?php endif; ?>
+
 		<?php if ($needCaptcha):
         //afficher captcha si nécessaire?>
 		<div id="form">
@@ -37,9 +45,10 @@ include 'init.php'
 			<input type="text" name="captcha" id="captcha" placeholder="résultat" required/>
 		</div>
 		<?php endif; ?>	
-		<p>
+
+		<div id="form">
 			<input type="submit" value="Suivant" name="send"/>
-		</p>
+		</div>
 	</form>
 </body>
 <script src="js/script.js"></script>

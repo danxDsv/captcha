@@ -5,10 +5,10 @@ include 'init.php';
 if(isset($_POST["send"])){
     
     //verification pot de miel CSS vide
-    if(isset($_POST["validation"]) && empty($_POST["validation"])){
+    if((isset($_POST["validation"]) && empty($_POST["validation"])) || ($pmCSS == false)){
         
         //verification pot de miel JS vide
-        if (isset($_POST["telephone"]) && empty($_POST["telephone"])) {
+        if ((isset($_POST["telephone"]) && empty($_POST["telephone"])) || ($pmJS == false)){
             
             //verification que les champs sont remplis
             if(
@@ -21,10 +21,10 @@ if(isset($_POST["send"])){
                 //si le captcha est présent
                 if ($needCaptcha) {
                     //verifie le résultat du Captcha
-                    verifCaptcha($limiteTps);
+                    verifCaptcha($limiteTps, $nbMaxForm);
                 } else {
                     //Verifie le nb de form envoyés selon le temps indiqué
-                    verifNbForm($limiteTps);
+                    verifNbForm($limiteTps, $nbMaxForm);
                 }
             } else {
                 header('location: formulaire.php');

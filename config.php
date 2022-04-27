@@ -1,10 +1,10 @@
 <?php
 
 //captcha actif ?
-$BooleanCaptcha = true;
+$booleanCaptcha = true;
 $limiteErreur = 3;
 
-$limites = false;
+$limites = true;
 $limiteVisiteur = 0;
 $limiteSpam = 0;
 

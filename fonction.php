@@ -55,26 +55,28 @@ function blacklistFORM()
 }
 
 //renvoie un boolean qui permet de savoir si on a besoin d'un captcha
-function needCaptcha()
+function needCaptcha($booleanCaptcha, $limites, $limiteSpam, $limiteVisiteur)
 {
-    //variables initiales
-    $limiteSpam = 0;        //limite de spam
-    $limiteVisiteur = 0;   //limite de visiteur
-    $captcha = false;       //booleen qui permet de gérer l'affichage
+    //booleen qui permet de gérer l'affichage
+    $captcha = false;
 
-    //ouverture cpt.txt en lecture
-    $fc = fopen("cpt.txt", "r");
-    $fv = fopen("cptVisiteur.txt", "r");
-    //lecture de la valeur
-    $valSpam = fgets($fc, 4096);
-    $valVisiteur = fgets($fv, 4096);
-    //comparaison avec la limite
-    if ($valSpam >= $limiteSpam || $valVisiteur >= $limiteVisiteur) {
-        $captcha = true; //si val est >= on affichera
+    if ($booleanCaptcha && !$limites) {
+        $captcha = true;
+    } else {
+        //ouverture cpt.txt en lecture
+        $fc = fopen("cpt.txt", "r");
+        $fv = fopen("cptVisiteur.txt", "r");
+        //lecture de la valeur
+        $valSpam = fgets($fc, 4096);
+        $valVisiteur = fgets($fv, 4096);
+        //comparaison avec la limite
+        if ($valSpam >= $limiteSpam || $valVisiteur >= $limiteVisiteur) {
+            $captcha = true; //si val est >= on affichera
+        }
+
+        fclose($fc);
+        fclose($fv);
     }
-
-    fclose($fc);
-    fclose($fv);
     return $captcha;
 }
 
@@ -125,12 +127,12 @@ function resetCpt()
 }
 
 //Verifie le nombre de formulaires envoyés
-function verifNbForm($limiteTps)
+function verifNbForm($limiteTps, $nbMaxForm)
 {
     //limite le nombre de formulaire à 3 par jour
-    if ($_SESSION["nbForm"] < 3) {
+    if ($_SESSION["nbForm"] < $nbMaxForm) {
         $_SESSION["nbForm"] += 1;
-        header('location: réussi.php');   
+        header('location: réussi.php');
     } else {
         //temps restant
         $tps = ($limiteTps)-(time()-$_SESSION['start']);
@@ -153,7 +155,6 @@ function verifNbForm($limiteTps)
             echo "alert('Vous ne pouvez plus envoyer de formulaire pour le moment, Attendez '+'$tpsMin'+' minute(s)');";
             echo "document.location.href='formulaire.php';";
             echo "</script>";
-        }     
+        }
     }
 }
-?>

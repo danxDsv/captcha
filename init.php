@@ -7,7 +7,7 @@ include 'config.php';
 
 blacklistFORM();
 resetCpt();
-$needCaptcha = needCaptcha();
+$needCaptcha = needCaptcha($booleanCaptcha, $limites, $limiteSpam, $limiteVisiteur);
 
 //supp le compteur de formulaire si ça fait plus de 24h (60*60*24)
 if (isset($_SESSION['start'])) {

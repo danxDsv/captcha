@@ -37,7 +37,7 @@ function captcha()
     return $txt;
 }
 
-function verifCaptcha($limiteTps) 
+function verifCaptcha($limiteTps, $nbMaxForm) 
 {
     //si le captcha a été envoyé et qu'il n'est pas vide ou pour 0 que c'est une valeur numérique
     if (isset($_POST["captcha"]) && (is_numeric($_POST["captcha"]) || !empty($_POST["captcha"]))) {
@@ -53,7 +53,7 @@ function verifCaptcha($limiteTps)
             unset($_SESSION["captcha"]);
             unset($_SESSION["captchaLettre"]);
             
-            verifNbForm($limiteTps);
+            verifNbForm($limiteTps, $nbMaxForm);
         }
     }
 }
