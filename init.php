@@ -5,7 +5,9 @@ include 'fonction.php';
 include 'captcha.php';
 include 'config.php';
 
-blacklistFORM();
+if ($_SERVER["REQUEST_URI"] != "/aurevoir.php") {
+	blacklistFORM();
+}
 resetCpt();
 $needCaptcha = needCaptcha($booleanCaptcha, $limites, $limiteSpam, $limiteVisiteur, $compteur);
 
