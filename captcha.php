@@ -50,7 +50,7 @@ function verifCaptcha($limiteTps, $nbMaxForm, $limiteErreur, $tpsPunition)
             unset($_SESSION["captcha"]);
             unset($_SESSION["captchaLettre"]);
             
-            verifNbErreur($tpsPunition, $limiteErreur);
+            verifNbErreur2($tpsPunition, $limiteErreur);
             verifNbForm($limiteTps, $nbMaxForm);
         }
     }

@@ -55,27 +55,32 @@ function blacklistFORM()
 }
 
 //renvoie un boolean qui permet de savoir si on a besoin d'un captcha
-function needCaptcha($booleanCaptcha, $limites, $limiteSpam, $limiteVisiteur)
+function needCaptcha($booleanCaptcha, $limites, $limiteSpam, $limiteVisiteur, $compteur)
 {
-    //booleen qui permet de gérer l'affichage
-    $captcha = false;
-
-    if ($booleanCaptcha && !$limites) {
+    if (!$booleanCaptcha) {
+        $captcha = false;
+    } elseif ($booleanCaptcha && !$limites) {
         $captcha = true;
     } else {
-        //ouverture cpt.txt en lecture
-        $fc = fopen("cpt.txt", "r");
-        $fv = fopen("cptVisiteur.txt", "r");
-        //lecture de la valeur
-        $valSpam = fgets($fc, 4096);
-        $valVisiteur = fgets($fv, 4096);
-        //comparaison avec la limite
-        if ($valSpam >= $limiteSpam || $valVisiteur >= $limiteVisiteur) {
-            $captcha = true; //si val est >= on affichera
-        }
+        if ($compteur) {
+            //ouverture cpt.txt en lecture
+            $fc = fopen("cpt.txt", "r");
+            $fv = fopen("cptVisiteur.txt", "r");
+            //lecture de la valeur
+            $valSpam = fgets($fc, 4096);
+            $valVisiteur = fgets($fv, 4096);
+            //comparaison avec la limite
+            if ($valSpam >= $limiteSpam || $valVisiteur >= $limiteVisiteur) {
+                $captcha = true; //si val est >= on affichera
+            } else {
+                $captcha = false;
+            }
 
-        fclose($fc);
-        fclose($fv);
+            fclose($fc);
+            fclose($fv);
+        } else {
+            $captcha = true;
+        }
     }
     return $captcha;
 }
@@ -189,7 +194,33 @@ function verifNbErreur($tpsPunition, $limiteErreur)
             echo "alert('Vous avez fait trop d erreurs de captcha, Attendez $tpsMin minute(s)');";
             echo "document.location.href='formulaire.php';";
             echo "</script>";
-        }  
+        }
     }
 }
-?>
+
+function verifNbErreur2($tpsPunition, $limiteErreur)
+{
+    if ($_SESSION["erreur"] > $limiteErreur) {
+        $tps = ($tpsPunition)-(time()-$_SESSION["punition"]);
+        $tpsMin = (int)($tps/60);
+        $tpsH = (int)($tpsMin/60);
+
+        //message d'erreur
+        if ($tps < 60) {
+            echo "<script type=\"text/javascript\">";
+            echo "alert('Vous avez fait trop d erreurs de captcha, Attendez $tps seconde(s)');";
+            echo "document.location.href='formulaire.php';";
+            echo "</script>";
+        } elseif ($tpsH >= 1) {
+            echo "<script type=\"text/javascript\">";
+            echo "alert('Vous avez fait trop d erreurs de captcha, Attendez $tpsH heure(s)');";
+            echo "document.location.href='formulaire.php';";
+            echo "</script>";
+        } else {
+            echo "<script type=\"text/javascript\">";
+            echo "alert('Vous avez fait trop d erreurs de captcha, Attendez $tpsMin minute(s)');";
+            echo "document.location.href='formulaire.php';";
+            echo "</script>";
+        }
+    }
+}

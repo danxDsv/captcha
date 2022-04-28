@@ -7,7 +7,7 @@ include 'config.php';
 
 blacklistFORM();
 resetCpt();
-$needCaptcha = needCaptcha($booleanCaptcha, $limites, $limiteSpam, $limiteVisiteur);
+$needCaptcha = needCaptcha($booleanCaptcha, $limites, $limiteSpam, $limiteVisiteur, $compteur);
 
 //supp le compteur de formulaire si ça fait plus de 24h (60*60*24)
 if (isset($_SESSION['start'])) {
@@ -32,10 +32,6 @@ if (!$_SESSION["visite"]) {
     $_SESSION["visite"] = true;
     cptPlus("cptVisiteur.txt");
 }
-//compteur d'erreur pour le captcha
-if (!isset($_SESSION["erreur"])) {
-    $_SESSION["erreur"] = 0;
-}
 //reset chrono erreur
 if (isset($_SESSION["punition"])) {
 	if ((time()-$_SESSION["punition"]) > $tpsPunition) {
@@ -43,9 +39,13 @@ if (isset($_SESSION["punition"])) {
     	unset($_SESSION["erreur"]);
 	}
 }
+//compteur d'erreur pour le captcha
+if (!isset($_SESSION["erreur"])) {
+    $_SESSION["erreur"] = 0;
+}
 //debut chrono trop d'erreurs
 if (!isset($_SESSION["punition"])) {
-    if ($_SESSION["erreur"] >= $limiteErreur) {
+    if ($_SESSION["erreur"] > $limiteErreur) {
         $_SESSION["punition"] = time();
     }
 }
