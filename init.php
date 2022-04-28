@@ -5,7 +5,8 @@ include 'fonction.php';
 include 'captcha.php';
 include 'config.php';
 
-if ($_SERVER["REQUEST_URI"] != "/aurevoir.php") {
+//check blacklist sauf sur aurevoir pour éviter boucle infinie
+if ($_SERVER["SCRIPT_NAME"] != "/aurevoir.php") {
 	blacklistFORM();
 }
 resetCpt();

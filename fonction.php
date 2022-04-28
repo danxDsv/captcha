@@ -139,7 +139,7 @@ function verifNbForm($limiteTps, $nbMaxForm)
     //limite le nombre de formulaire à 3 par jour
     if ($_SESSION["nbForm"] < $nbMaxForm) {
         $_SESSION["nbForm"] += 1;
-        header('location: réussi.php');
+        header('location: reussi.php');
     } else {
         //temps restant
         $tps = ($limiteTps)-(time()-$_SESSION['start']);
