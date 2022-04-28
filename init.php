@@ -32,7 +32,7 @@ if (!isset($_SESSION["visite"])) {
 //compteur de visite
 if (!$_SESSION["visite"]) {
     $_SESSION["visite"] = true;
-    cptPlus("cptVisiteur.txt");
+    cptPlus("cptVisiteur.txt", $compteur);
 }
 //reset chrono erreur
 if (isset($_SESSION["punition"])) {

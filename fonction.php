@@ -8,13 +8,13 @@ function get_ip()
 }
 
 //permet de noter l'ip du spam dans un txt
-function blacklist()
+function blacklist($compteur)
 {
     //Recuperation de l'ip
     $ip = get_ip();
 
     //compteur de spam
-    cptPlus("cpt.txt");
+    cptPlus("cpt.txt", $compteur);
 
     //Ouverture du fichier blacklist en ecriture (a : pointeur fin de fichier) et en lecture
     $fa = fopen("ips.txt", "a");
@@ -86,18 +86,20 @@ function needCaptcha($booleanCaptcha, $limites, $limiteSpam, $limiteVisiteur, $c
 }
 
 //incrémente le compteur de spam
-function cptPlus($filename)
+function cptPlus($filename, $compteur)
 {
-    //récuperation de la valeur du fichier
-    $cpt = file_get_contents($filename);
-    $cpt = trim($cpt);
-    //incrémentation
-    $cpt = $cpt + 1;
+    if ($compteur) {
+        //récuperation de la valeur du fichier
+        $cpt = file_get_contents($filename);
+        $cpt = trim($cpt);
+        //incrémentation
+        $cpt = $cpt + 1;
 
-    //ouverture + écriture + fermeture
-    $fcpt = fopen($filename, "w+");
-    fputs($fcpt, "$cpt");
-    fclose($fcpt);
+        //ouverture + écriture + fermeture
+        $fcpt = fopen($filename, "w+");
+        fputs($fcpt, "$cpt");
+        fclose($fcpt);
+    }
 }
 
 //réinitialise le compteur si besoin

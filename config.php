@@ -22,5 +22,5 @@ $nbMaxForm = 3;
 $limiteTps = 60*4;
 
 //activation des compteurs de visiteurs/spams
-$compteur = false;
+$compteur = true;
 ?>

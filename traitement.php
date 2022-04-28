@@ -30,10 +30,10 @@ if(isset($_POST["send"])){
                 header('location: formulaire.php');
             }
         }else{
-            blacklist(); 
+            blacklist($compteur); 
         }
     }else {
-        blacklist();    
+        blacklist($compteur);    
     }
 } else{
     header('location: formulaire.php');
