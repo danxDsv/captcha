@@ -19,7 +19,11 @@ function blacklist($compteur)
     //Ouverture du fichier blacklist en ecriture (a : pointeur fin de fichier) et en lecture
     $fa = fopen("ips.txt", "a");
     $fr = fopen("ips.txt", "r");
-    $filer = fgets($fr, 4096);
+    $size = filesize("ips.txt");
+    if ($size == 0) {
+        $size = 1;
+    }
+    $filer = fgets($fr, $size);
 
     //Recherche si ip est dans la blacklist
     //si oui -> out
@@ -44,7 +48,11 @@ function blacklistFORM()
 
     //Ouverture du fichier blacklist
     $fr = fopen("ips.txt", "r");
-    $filer = fgets($fr, 4096);
+    $size = filesize("ips.txt");
+    if ($size == 0) {
+        $size = 1;
+    }
+    $filer = fgets($fr, $size);
 
     //Recherche si ip est dans la blacklist
     //si oui -> out
@@ -66,9 +74,18 @@ function needCaptcha($booleanCaptcha, $limites, $limiteSpam, $limiteVisiteur, $c
             //ouverture cpt.txt en lecture
             $fc = fopen("cpt.txt", "r");
             $fv = fopen("cptVisiteur.txt", "r");
+            $sizefc = filesize("cpt.txt"); 
+            //taille des fichiers
+            if ($sizefc == 0) {
+                $sizefc = 1;
+            }
+            $sizefv = filesize("cptVisiteur.txt");
+            if ($sizefv == 0) {
+                $sizefv = 1;
+            }
             //lecture de la valeur
-            $valSpam = fgets($fc, 4096);
-            $valVisiteur = fgets($fv, 4096);
+            $valSpam = fgets($fc, $sizefc);
+            $valVisiteur = fgets($fv, $sizefv);
             //comparaison avec la limite
             if ($valSpam >= $limiteSpam || $valVisiteur >= $limiteVisiteur) {
                 $captcha = true; //si val est >= on affichera
