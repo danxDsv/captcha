@@ -1,5 +1,7 @@
 <?php
-include 'init.php'
+include 'init.php';
+
+echo $_SESSION['erreur'];
 ?>
 
 <!doctype html>

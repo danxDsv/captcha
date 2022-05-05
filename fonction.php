@@ -25,19 +25,13 @@ function blacklist($compteur)
     }
     $filer = fgets($fr, $size);
 
-    //Recherche si ip est dans la blacklist
-    //si oui -> out
-    if (preg_match('.^'.preg_quote($ip).'$.m', $filer)) {
-        fclose($fa);
-        fclose($fr);
-        header('location: aurevoir.php');
-    } else {
-        //si pas trouvée -> écriture puis out
+    //Ecrit ip si pas dans la liste
+    if (!preg_match('.^'.preg_quote($ip).'$.m', $filer)) {
         fputs($fa, "$ip\n");
-        fclose($fa);
-        fclose($fr);
-        header('location: aurevoir.php');
-    }
+    } 
+    fclose($fa);
+    fclose($fr);
+    header('location: aurevoir.php');
 }
 
 //verification de la blacklist dans chaque page
@@ -156,6 +150,7 @@ function verifNbForm($limiteTps, $nbMaxForm)
     //limite le nombre de formulaire à 3 par jour
     if ($_SESSION["nbForm"] < $nbMaxForm) {
         $_SESSION["nbForm"] += 1;
+        unset($_SESSION["erreur"]);
         header('location: reussi.php');
     } else {
         //temps restant
@@ -183,7 +178,7 @@ function verifNbForm($limiteTps, $nbMaxForm)
     }
 }
 
-function errorCaptcha($tpsPunition)
+function errorCaptcha($tpsPunition, $limiteErreur)
 {
     //debut chrono trop d'erreurs
     if (!isset($_SESSION["punition"])) {
@@ -218,19 +213,21 @@ function verifNbErreur($tpsPunition, $limiteErreur)
 {
     $_SESSION["erreur"] += 1;
 
-    if ($_SESSION["erreur"] < $limiteErreur) {
+    if ($_SESSION["erreur"] <= $limiteErreur) {
         echo "<script type=\"text/javascript\">";
         echo "alert('Le résultat du calcul est faux');";
         echo "document.location.href='formulaire.php';";
         echo "</script>";
     } else {
-        errorCaptcha($tpsPunition);
+        errorCaptcha($tpsPunition, $limiteErreur);
     }
 }
 
-function verifNbErreur2($tpsPunition, $limiteErreur)
+function verifNbErreur2($tpsPunition, $limiteErreur, $limiteTps, $nbMaxForm)
 {
     if ($_SESSION["erreur"] > $limiteErreur) {
-        errorCaptcha($tpsPunition);
+        errorCaptcha($tpsPunition, $limiteErreur);
+    } else {
+        verifNbForm($limiteTps, $nbMaxForm);
     }
 }

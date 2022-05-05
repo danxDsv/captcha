@@ -3,7 +3,7 @@
 //captcha actif ?
 $booleanCaptcha = true;
 $limiteErreur = 3;
-$tpsPunition = 60*5; //en secondes
+$tpsPunition = 60;//*5; //en secondes
 
 $limites = true;
 $limiteVisiteur = 0;

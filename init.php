@@ -12,7 +12,7 @@ if ($_SERVER["SCRIPT_NAME"] != "/aurevoir.php") {
 resetCpt();
 $needCaptcha = needCaptcha($booleanCaptcha, $limites, $limiteSpam, $limiteVisiteur, $compteur);
 
-//supp le compteur de formulaire si ça fait plus de 24h (60*60*24)
+//supp le compteur de formulaire si ça fait plus que la limite
 if (isset($_SESSION['start'])) {
 	if ((time()-$_SESSION['start']) > $limiteTps) {
 		unset($_SESSION['start']);
