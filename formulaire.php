@@ -1,7 +1,5 @@
 <?php
 include 'init.php';
-
-echo $_SESSION['erreur'];
 ?>
 
 <!doctype html>
@@ -41,9 +39,10 @@ echo $_SESSION['erreur'];
 		<?php endif; ?>
 
 		<?php if ($needCaptcha):
-        //afficher captcha si nécessaire?>
-		<div id="form">
-			<label for="captcha">Combien font <?php echo captcha(); ?> ?</label></br>
+        //afficher captcha si nécessaire
+		$aff = captcha();?>
+		<div id="captcha">
+			<label for="captcha">Combien font <?php foreach($aff as $a): ?> <?=afficher($a)?> <?php endforeach; ?>?</label></br>
 			<input type="text" name="captcha" id="captcha" placeholder="résultat" required/>
 		</div>
 		<?php endif; ?>	

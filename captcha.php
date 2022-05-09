@@ -14,15 +14,15 @@ function calc()
     //resultat du calcul en chiffre et en lettre + phrase à afficher
     if ($op==0) {
         $resultat = $nb1 + $nb2;
-        $txt = $liste[$nb1].' plus '.$liste[$nb2];
+        $txt = array($nb1, 'plus', $nb2);
     } else {
         //if pour ne pas avoir de résultat négatif pour la soustraction
         if ($nb1 >= $nb2) {
             $resultat = $nb1 - $nb2;
-            $txt = $liste[$nb1].' moins '.$liste[$nb2];
+            $txt = array($nb1, 'moins', $nb2);
         } else {
             $resultat = $nb2 - $nb1;
-            $txt = $liste[$nb2].' moins '.$liste[$nb1];
+            $txt = array($nb2, 'moins', $nb1);
         }
     }  
     $resultatLettre = $liste[$resultat];
@@ -52,6 +52,29 @@ function verifCaptcha($limiteTps, $nbMaxForm, $limiteErreur, $tpsPunition)
             
             verifNbErreur2($tpsPunition, $limiteErreur, $limiteTps, $nbMaxForm);
             //verifNbForm($limiteTps, $nbMaxForm);
+        }
+    }
+}
+
+function afficher($data)
+{
+    //affichage des opérateurs
+    if ($data == "plus") {
+        echo '<img src="img/plus.png" id="nbr" alt="plus"/>';
+    } elseif ($data == "moins") {
+        echo '<img src="img/moins.png" id="nbr" alt="moins"/>';
+    } else {
+        //affichage des nombres
+        $taille = strlen($data);
+        //si plusieurs chiffres
+        if ($taille > 1) {
+            //decompose
+            $tab = str_split($data);
+            for ($i=0; $i < $taille ; $i++) { 
+                echo '<img src="img/'.$tab[$i].'.png" id="nbr" alt="'.$tab[$i].'"/>';
+            }
+        } else {
+            echo '<img src="img/'.$data.'.png" id="nbr" alt="'.$data.'"/>';
         }
     }
 }
