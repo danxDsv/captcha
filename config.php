@@ -23,4 +23,7 @@ $limiteTps = 60*4;
 
 //activation des compteurs de visiteurs/spams
 $compteur = true;
+
+//operateur en plus
+$operateur2 = false;
 ?>

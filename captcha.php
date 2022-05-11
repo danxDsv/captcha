@@ -1,9 +1,10 @@
 <?php
-function calc()
+function calc($operateur2)
 {
     //liste de nombres en toute lettre
     $liste = array('zero', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept', 'huit', 'neuf', 'dix', 'onze', 'douze', 'treize',
-                    'quatorze', 'quinze', 'seize', 'dix-sept', 'dix-huit', 'dix-neuf', 'vingt');
+                    'quatorze', 'quinze', 'seize', 'dix-sept', 'dix-huit', 'dix-neuf', 'vingt', 'vingt-et-un', 'vingt-deux', 'vingt-trois',
+                    'vingt-quatre', 'vingt-cinq', 'vingt-six', 'vingt-sept', 'vingt-huit', 'vingt-neuf', 'trente');
 
     //tirage de l'opérateur 0->plus ; 1->moins
     $op = rand(0, 1);
@@ -25,13 +26,34 @@ function calc()
             $txt = array($nb2, 'moins', $nb1);
         }
     }  
+    //ajout d'un operateur
+    if ($operateur2) {
+        //tirage
+        $op2 = rand(0,1);
+        $nb3 = rand(0,10);
+        //tirage plus
+        if($op2==0) {
+            $resultat += $nb3;
+            array_push($txt, 'plus', $nb3);
+        } else {
+            //tirage moins
+            if ($resultat >= $nb3) {
+                $resultat -= $nb3;
+                array_push($txt, 'moins', $nb3);
+            } else {
+                $nb3 = rand(0, $resultat);
+                $resultat -= $nb3;
+                array_push($txt, 'moins', $nb3);
+            } 
+        }
+    }
     $resultatLettre = $liste[$resultat];
     return array($resultat, $resultatLettre, $txt);
 }
 
-function captcha()
+function captcha($operateur2)
 {
-    list($resultat, $resultatLettre, $txt) = calc();
+    list($resultat, $resultatLettre, $txt) = calc($operateur2);
     $_SESSION['captcha'] = $resultat;
     $_SESSION['captchaLettre'] = $resultatLettre;
     return $txt;
