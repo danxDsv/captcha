@@ -2,9 +2,10 @@
 function calc($operateur2)
 {
     //liste de nombres en toute lettre
-    $liste = array('zero', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept', 'huit', 'neuf', 'dix', 'onze', 'douze', 'treize',
-                    'quatorze', 'quinze', 'seize', 'dix-sept', 'dix-huit', 'dix-neuf', 'vingt', 'vingt-et-un', 'vingt-deux', 'vingt-trois',
-                    'vingt-quatre', 'vingt-cinq', 'vingt-six', 'vingt-sept', 'vingt-huit', 'vingt-neuf', 'trente');
+    $liste = array('zero', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept', 'huit', 'neuf', 'dix',
+                    'onze', 'douze', 'treize', 'quatorze', 'quinze', 'seize', 'dix-sept', 'dix-huit', 'dix-neuf', 'vingt',
+                    'vingt-et-un', 'vingt-deux', 'vingt-trois', 'vingt-quatre', 'vingt-cinq', 'vingt-six', 'vingt-sept',
+                    'vingt-huit', 'vingt-neuf', 'trente');
 
     //tirage de l'opérateur 0->plus ; 1->moins
     $op = rand(0, 1);
@@ -25,14 +26,14 @@ function calc($operateur2)
             $resultat = $nb2 - $nb1;
             $txt = array($nb2, 'moins', $nb1);
         }
-    }  
+    }
     //ajout d'un operateur
     if ($operateur2) {
         //tirage
-        $op2 = rand(0,1);
-        $nb3 = rand(0,10);
+        $op2 = rand(0, 1);
+        $nb3 = rand(0, 10);
         //tirage plus
-        if($op2==0) {
+        if ($op2==0) {
             $resultat += $nb3;
             array_push($txt, 'plus', $nb3);
         } else {
@@ -44,7 +45,7 @@ function calc($operateur2)
                 $nb3 = rand(0, $resultat);
                 $resultat -= $nb3;
                 array_push($txt, 'moins', $nb3);
-            } 
+            }
         }
     }
     $resultatLettre = $liste[$resultat];
@@ -59,13 +60,13 @@ function captcha($operateur2)
     return $txt;
 }
 
-function verifCaptcha($limiteTps, $nbMaxForm, $limiteErreur, $tpsPunition) 
+function verifCaptcha($limiteTps, $nbMaxForm, $limiteErreur, $tpsPunition)
 {
     //si le captcha a été envoyé et qu'il n'est pas vide ou pour 0 que c'est une valeur numérique
     if (isset($_POST["captcha"]) && (is_numeric($_POST["captcha"]) || !empty($_POST["captcha"]))) {
 
         //si le résultat en chiffre et en lettre sont faux
-        if ( ($_POST["captcha"] != $_SESSION["captcha"]) && (strcasecmp($_POST["captcha"], $_SESSION["captchaLettre"]) != 0 )) {
+        if (($_POST["captcha"] != $_SESSION["captcha"]) && (strcasecmp($_POST["captcha"], $_SESSION["captchaLettre"]) != 0)) {
             verifNbErreur($tpsPunition, $limiteErreur);
         } else {
             //supprimer resultat pour que le resultat puisse changer avec retour en arrière
@@ -92,7 +93,7 @@ function afficher($data)
         if ($taille > 1) {
             //decompose
             $tab = str_split($data);
-            for ($i=0; $i < $taille ; $i++) { 
+            for ($i=0; $i < $taille ; $i++) {
                 echo '<img src="img/'.$tab[$i].'.png" id="nbr" alt="'.$tab[$i].'"/>';
             }
         } else {

@@ -5,6 +5,7 @@ $booleanCaptcha = true;
 $limiteErreur = 3;
 $tpsPunition = 60;//*5; //en secondes
 
+//limites des compteurs
 $limites = true;
 $limiteVisiteur = 0;
 $limiteSpam = 0;
@@ -19,11 +20,11 @@ $pmJS = true;
 //Nombre max de form pouvant être envoyés selon le temps ci dessous
 $nbMaxForm = 3;
 //temps en secondes
-$limiteTps = 60*4;
+$limiteTps = 60;//*4;
 
 //activation des compteurs de visiteurs/spams
 $compteur = true;
 
 //operateur en plus
-$operateur2 = false;
+$operateur2 = true;
 ?>

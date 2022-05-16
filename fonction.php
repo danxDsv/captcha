@@ -28,7 +28,7 @@ function blacklist($compteur)
     //Ecrit ip si pas dans la liste
     if (!preg_match('.^'.preg_quote($ip).'$.m', $filer)) {
         fputs($fa, "$ip\n");
-    } 
+    }
     fclose($fa);
     fclose($fr);
     header('location: aurevoir.php');
@@ -54,6 +54,7 @@ function blacklistFORM()
         fclose($fr);
         header('location: aurevoir.php');
     }
+    fclose($fr);
 }
 
 //renvoie un boolean qui permet de savoir si on a besoin d'un captcha
@@ -68,7 +69,7 @@ function needCaptcha($booleanCaptcha, $limites, $limiteSpam, $limiteVisiteur, $c
             //ouverture cpt.txt en lecture
             $fc = fopen("cpt.txt", "r");
             $fv = fopen("cptVisiteur.txt", "r");
-            $sizefc = filesize("cpt.txt"); 
+            $sizefc = filesize("cpt.txt");
             //taille des fichiers
             if ($sizefc == 0) {
                 $sizefc = 1;
@@ -231,3 +232,4 @@ function verifNbErreur2($tpsPunition, $limiteErreur, $limiteTps, $nbMaxForm)
         verifNbForm($limiteTps, $nbMaxForm);
     }
 }
+?>

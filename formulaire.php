@@ -42,7 +42,7 @@ include 'init.php';
         //afficher captcha si nécessaire
 		$aff = captcha($operateur2);?>
 		<div id="captcha">
-			<label for="captcha">Combien font <?php foreach($aff as $a): ?> <?=afficher($a)?> <?php endforeach; ?>?</label></br>
+			<label for="captcha">Combien font <?php foreach($aff as $a) { afficher($a); } ?>?</label></br>
 			<input type="text" name="captcha" id="captcha" placeholder="résultat" required/>
 		</div>
 		<?php endif; ?>	
