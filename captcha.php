@@ -72,9 +72,12 @@ function verifCaptcha($limiteTps, $nbMaxForm, $limiteErreur, $tpsPunition)
             //supprimer resultat pour que le resultat puisse changer avec retour en arrière
             unset($_SESSION["captcha"]);
             unset($_SESSION["captchaLettre"]);
+            //Supprime les sauvegardes du formulaire s'il est réussi
+            unset($_SESSION["inscription"]["nom"]);
+            unset($_SESSION["inscription"]["prenom"]);
+            //A COMPLETER SI AJOUT D'AUTRES CHAMPS
             
             verifNbErreur2($tpsPunition, $limiteErreur, $limiteTps, $nbMaxForm);
-            //verifNbForm($limiteTps, $nbMaxForm);
         }
     }
 }

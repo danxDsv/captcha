@@ -1,4 +1,4 @@
-input#validation { display: none !important;} 
+input#pm { display: none !important;}
 
 form#formulaire input:not(:focus):invalid ~ span {
     display: block;

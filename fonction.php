@@ -148,10 +148,13 @@ function resetCpt()
 //Verifie le nombre de formulaires envoyés
 function verifNbForm($limiteTps, $nbMaxForm)
 {
-    //limite le nombre de formulaire à 3 par jour
+    //limite le nombre de formulaire au nombre configuré
     if ($_SESSION["nbForm"] < $nbMaxForm) {
         $_SESSION["nbForm"] += 1;
-        unset($_SESSION["erreur"]);
+        //ajout if
+        if (isset($_SESSION["erreur"]) && $_SESSION["erreur"] <= $nbMaxForm) {
+            unset($_SESSION["erreur"]);
+        }
         header('location: reussi.php');
     } else {
         //temps restant
@@ -215,9 +218,12 @@ function verifNbErreur($tpsPunition, $limiteErreur)
     $_SESSION["erreur"] += 1;
 
     if ($_SESSION["erreur"] <= $limiteErreur) {
+        //récuperation des éléments de l'inscription
+        $_SESSION['inscription']['nom'] = $_POST['nom'];
+        $_SESSION['inscription']['prenom'] = $_POST['prenom'];
+        //A COMPLETER SI AJOUT D'AUTRES CHAMPS
         echo "<script type=\"text/javascript\">";
-        echo "alert('Le résultat du calcul est faux');";
-        echo "document.location.href='formulaire.php';";
+        echo "document.location.href='faux.php';";
         echo "</script>";
     } else {
         errorCaptcha($tpsPunition, $limiteErreur);

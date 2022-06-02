@@ -13,30 +13,31 @@ include 'init.php';
   
     <form id="formulaire" action="traitement.php" method="post">
 
-		<!-- vrais input du formulaire mettre des patterns si possible pour bloquer spam d'url-->
 		<div id="form">
-			<input type="text" name="nom" id="nom" pattern="^([ \u00c0-\u01ffa-zA-Z'\-])+$" placeholder="Nom" required/>
+			<input type="text" name="nom" id="nom" pattern="^([ \u00c0-\u01ffa-zA-Z'\-])+$" placeholder="Nom" value="<?php 
+			if(isset($_SESSION['inscription']['nom'])) { echo $_SESSION['inscription']['nom']; } ?>" required/>
 			<span>Veuillez entrer uniquement des lettres</span>
 		</div>
 		<div id="form">
-			<input type="text" name="prenom" id="prenom" pattern="^([ \u00c0-\u01ffa-zA-Z'\-])+$" placeholder="Prenom" required/>
+			<input type="text" name="prenom" id="prenom" pattern="^([ \u00c0-\u01ffa-zA-Z'\-])+$" placeholder="Prenom" value="<?php 
+			if(isset($_SESSION['inscription']['prenom'])) { echo $_SESSION['inscription']['prenom']; } ?>"required/>
 			<span>Veuillez entrer uniquement des lettres</span>
 		</div>
 
-		<?php if ($pmJS):?>
-		<!--Pot de miel JS-->
-        <div>
-			<input type="tel" name="telephone" id="telephone" tabindex="-1" autocomplete="off" placeholder="téléphone" value=""/>
-		</div>
-		<?php endif; ?>
+		<?php if ($pmJS) {
+        echo '<div>';
+		echo '<input type="text" name="'.$nomPmJS.'" id="'.$nomPmJS.'" tabindex="-1" autocomplete="off" placeholder="'.$nomPmJS.'" value=""/>';
+		echo '</div>';
+		echo '<script type="text/javascript">';
+        echo 'document.getElementById("'.$nomPmJS.'").style.display = "none";';
+        echo '</script>';
+		}?>
 
-		<?php if ($pmCSS):?>
-		<!--Pot de miel CSS-->
-        <div>
-			<!--<input type="text" name="validation" tabindex="-1" autocomplete="off" id="validation" placeholder="validation"/>-->
-            <input type="text" name="validation" tabindex="-1" autocomplete="off" id="validation" placeholder="validation" value=""/>
-		</div>
-		<?php endif; ?>
+		<?php if ($pmCSS){
+        echo '<div>';
+		echo '<input type="text" name="'.$nomPmCSS.'" id="pm" tabindex="-1" autocomplete="off" placeholder="'.$nomPmCSS.'" value=""/>';
+		echo '</div>';
+		}?>
 
 		<?php if ($needCaptcha):
         //afficher captcha si nécessaire

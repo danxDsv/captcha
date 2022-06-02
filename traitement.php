@@ -5,10 +5,10 @@ include 'init.php';
 if (isset($_POST["send"])) {
     
     //verification pot de miel CSS vide
-    if ((isset($_POST["validation"]) && empty($_POST["validation"])) || ($pmCSS == false)) {
+    if ((isset($_POST[$nomPmCSS]) && empty($_POST[$nomPmCSS])) || ($pmCSS == false)) {
         
         //verification pot de miel JS vide
-        if ((isset($_POST["telephone"]) && empty($_POST["telephone"])) || ($pmJS == false)) {
+        if ((isset($_POST[$nomPmJS]) && empty($_POST[$nomPmJS])) || ($pmJS == false)) {
             
             //verification que les champs sont remplis
             if (
