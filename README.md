@@ -23,10 +23,11 @@ Modifier les différentes variables du fichier *config.php* :  affichage / activ
 `* operateur2 (booleen) : permet de passer à un calcul avec 3 chiffres et 2 opérateurs`    
 
 * Pots de Miel   
-`* pmCSS / pmJS (booleen) : permet de gérer l'activation des pots de miel`     
+`* pmCSS / pmJS (booleen) : permet de gérer l'activation des pots de miel`
+`* nomPmJS / nomPmCSS : nom des attributs name des pots de miel`
                                                                     
 * Compteurs   
-`* compteur (booleen) : active / désactive le fonctionnement des compteurs de visiteurs/spams`  
+`* compteur (booleen) : active / désactive le fonctionnement des compteurs de visiteurs/spams, n'a pas d'autres utilités que de compter`  
 `* limites (booleen) : active / désactive les limites de compteurs qui permettent d'afficher le captcha en fonction des compteurs`  
 `* limiteVisiteur / limiteSpam (int) : limites selon lesquelles le captcha est affiché si les limites sont activées`  
 
@@ -36,7 +37,8 @@ Modifier les différentes variables du fichier *config.php* :  affichage / activ
 
 ### Modifications
 
-Pour l'adapter à un site web :  
+Pour l'adapter à un site web :
+* modifier le fichier config.php
 * modification des redirections.  
 * vérifier *cpt.txt*, *cptVisiteurs.txt*, *date.txt*  
 * adapter la page *formulaire.php* et *traitement.php* aux champs de formulaire voulus.
